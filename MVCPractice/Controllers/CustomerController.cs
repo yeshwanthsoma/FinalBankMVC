@@ -59,13 +59,11 @@ namespace MVCPractice.Controllers
         {
             return View();
         }
-
+    
         [HttpPost]
         public ActionResult FundTransfer(long destinationAccountNo,int amount,string comment)
         {
-            
-            try
-            {
+            try{
                 long accountNo = long.Parse(Session["accountNumber"].ToString());
                 CustomerClass obj = new CustomerClass();
                 TransactionClass obj1 = new TransactionClass();
@@ -99,14 +97,16 @@ namespace MVCPractice.Controllers
                     ViewBag.Error="Destination Account not found";
                 }
                 Session["medal"] = obj.checkMedal(accountNo);
-            }
-
+            
+        }
             catch (Exception exp)
             {
-                ViewBag.Error = "Exception "+exp;
+                ViewBag.Error = "Exception";
             }
             return View();
         }
+    
+    
 
         public ActionResult MiniStatement()
         {

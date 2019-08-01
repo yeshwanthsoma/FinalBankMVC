@@ -4,6 +4,8 @@
     ViewBag.Title = "FundTransfer";
 
 }
+<script src="~/Scripts/jquery-3.4.1.min.js" type="text/javascript"></script>
+<script src="~/Scripts/jquery.validate.min.js" type="text/javascript"></script>
 
 
 
@@ -14,7 +16,7 @@
     <div>
         @ViewBag.Success
     </div>
-@using (Html.BeginForm())
+@using (Html.BeginForm(new { id="FundTransferForm"}))
 {
     <div class="jumbotron d-inline-block" style=" margin-top: 100px">
         <div>
@@ -34,7 +36,7 @@
         </div>
         <div class="input-group mb-3">
             <label id="Label4" class="input-group-text input-group-prepend">Amount</label>
-            @Html.EditorFor(Model => Model.amount)
+            @Html.Editor("amount")
         </div>
         <div class="input-group mb-3">
             <label id="Label5" class="input-group-text input-group-prepend">Comment</label>
@@ -47,4 +49,38 @@
 
     </div>
 }
+<script type="text/javascript">
+   
+    $().ready(function () {
+        $("#FundTransferForm").validate({
+            rules: {
+                destinationAccountNo: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 3
+                },
+                amount: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 3
+                },
+                comment: {
+                    required: true,
+                    maxlength: 10,
+                    minlength: 3
+                }
+
+            },
+                messages: {
+            amount: {
+                            required: "First name is required",
+                            maxlength: "Too long",
+                            minlength: "Too short"
+            },
+      
+                }
+    });
+    });
+    // ]]>
+</script>
 

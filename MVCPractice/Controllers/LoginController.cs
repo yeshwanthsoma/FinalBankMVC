@@ -27,6 +27,8 @@ namespace MVCPractice.Controllers
             }
             else if (role.Equals("Customer"))
                 return RedirectToAction("Index", "Customer");
+            else if (role.Equals("BankManager"))
+                return RedirectToAction("Index", "SuperManager");
             else
                 return View();
         }
@@ -49,6 +51,13 @@ namespace MVCPractice.Controllers
                 Session["role"] = "Customer";
                 Session["userId"] = userId;
                 return RedirectToAction("Index", "Customer");
+
+            }
+            else if (result == "BankManager")
+            {
+                Session["role"] = "BankManager";
+                Session["userId"] = userId;
+                return RedirectToAction("Index", "SuperManager");
 
             }
             return RedirectToAction("Index");

@@ -1,0 +1,54 @@
+﻿@model BusinessLayer.Manager
+
+@{
+    ViewBag.Title = "AddManager";
+}
+
+<h2>AddManager</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="jumbotron d-inline-block" style=" margin-top: 100px">
+        <div>
+            <h1><label id="Label1">Add Manager</label></h1>
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label2" class="input-group-text input-group-prepend">Manager Name</label>
+            @Html.Editor("name")
+        </div>
+
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Branch Id</label>
+            @Html.Editor("branch")
+        </div>
+
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Address</label>
+            @Html.Editor("address")
+        </div>
+
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Phone Number</label>
+            @Html.Editor("phno")
+        </div>
+
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Email Id</label>
+            @Html.Editor("mail")
+        </div>
+
+
+        <div>
+            <input type="submit" class="btn btn-outline-success" value="Add Manager" />
+            <button id="back" onclick="location.href='@Url.Action("ManageManager","SuperManager")'" class="btn btn-outline-success">Back</button>
+        </div>
+        <label id="Label6"></label>
+        <div>
+            @ViewBag.result
+        </div>
+
+    </div>
+}
+
+
+

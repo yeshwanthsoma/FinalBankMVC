@@ -5,7 +5,7 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="9f39565bd5394330ac54780a24217262" Name="Diagram1">
-        <EntityTypeShape EntityType="BankModel.Account" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Account" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="false" />
         <EntityTypeShape EntityType="BankModel.Customer" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="BankModel.Login" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
         <EntityTypeShape EntityType="BankModel.Transaction" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />

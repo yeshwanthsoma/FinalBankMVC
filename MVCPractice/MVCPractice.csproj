@@ -123,6 +123,7 @@
     <Compile Include="Controllers\CustomerController.cs" />
     <Compile Include="Controllers\LoginController.cs" />
     <Compile Include="Controllers\ManagerController.cs" />
+    <Compile Include="Controllers\SuperManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -278,6 +279,12 @@
     <Content Include="Views\Manager\ShowAllCustomers.cshtml" />
     <Content Include="Views\Manager\AddCustomer.cshtml" />
     <Content Include="Views\Manager\EditCustomer.cshtml" />
+    <Content Include="Views\SuperManager\AddManager.cshtml" />
+    <Content Include="Views\SuperManager\EditManager.cshtml" />
+    <Content Include="Views\SuperManager\ManageManager.cshtml" />
+    <Content Include="Views\SuperManager\DeleteManager.cshtml" />
+    <Content Include="Views\SuperManager\Index.cshtml" />
+    <Content Include="Views\SuperManager\ManagersList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
