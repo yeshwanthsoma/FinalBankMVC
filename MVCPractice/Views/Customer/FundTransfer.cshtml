@@ -1,0 +1,50 @@
+﻿@model BusinessLayer.Account
+
+@{
+    ViewBag.Title = "FundTransfer";
+
+}
+
+
+
+    <h2>FundTransfer</h2>
+    <div>
+        @ViewBag.Error
+    </div>
+    <div>
+        @ViewBag.Success
+    </div>
+@using (Html.BeginForm())
+{
+    <div class="jumbotron d-inline-block" style=" margin-top: 100px">
+        <div>
+            <h1><label id="Label1">Fund Transfer</label></h1>
+        </div>
+        <div class="input-group mb-3">
+
+            <label id="Label2" class="input-group-text input-group-prepend">Source Account No</label>
+
+
+            <label id="Label2" class="input-group-text input-group-prepend">@Session["accountNumber"]</label>
+
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label2" class="input-group-text input-group-prepend">Destination Account No</label>
+            @Html.Editor("destinationAccountNo")
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Amount</label>
+            @Html.EditorFor(Model => Model.amount)
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label5" class="input-group-text input-group-prepend">Comment</label>
+            @Html.Editor("comment")
+        </div>
+        <div>
+            <input type="submit" class="btn btn-outline-success" value="Transfer" />
+        </div>
+        <label id="Label6"></label>
+
+    </div>
+}
+

@@ -1,0 +1,64 @@
+﻿@model  IEnumerable<BusinessLayer.Transaction>
+
+
+
+@{
+    ViewBag.Title = "MiniStatement";
+}
+
+<h2>CustomStatement</h2>
+<div class="jumbotron d-inline-block" style=" margin-top: 100px">
+    <label id="message"></label>
+    <div class="table-responsive">
+        <div>
+
+            <table border="2" style="font-family:Arial" class="table table-hover table-striped">
+                <tr>
+                    <th>TransactionId</th>
+
+                    <th>Destination AccountNumber</th>
+                    <th>Transaction Date</th>
+                    <th>Amount</th>
+                    <th>Transaction Type</th>
+                </tr>
+
+                @foreach (BusinessLayer.Transaction transaction in @Model)
+                {
+                    <tr>
+
+                        <td>
+                            @transaction.transactionId
+                        </td>
+                        <td>
+                            @if (transaction.transactionType == "FundTransfer")
+                            {
+                                @transaction.fromAccountNo
+                            }
+                            else
+                            {
+                                <em>  - </em>
+                            }
+
+                        </td>
+
+                        <td>
+                            @transaction.transactionDate
+                        </td>
+                        <td>
+                            @transaction.amount
+                        </td>
+                        <td>
+                            @transaction.transactionType
+                        </td>
+                    </tr>
+
+                }
+
+            </table>
+            <br />
+
+        </div>
+
+
+    </div>
+</div>

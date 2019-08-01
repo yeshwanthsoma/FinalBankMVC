@@ -1,0 +1,34 @@
+﻿@model BusinessLayer.Account
+
+@{
+    ViewBag.Title = "Withdraw";
+}
+
+<h2>Withdraw</h2>
+
+@using (Html.BeginForm())
+{
+    <div class="jumbotron d-inline-block" style=" margin-top: 100px">
+        <div>
+            <h1><label id="Label1">Withdraw</label></h1>
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label2" class="input-group-text input-group-prepend">Source Account No</label>
+            @Html.Editor("acc")
+        </div>
+
+        <div class="input-group mb-3">
+            <label id="Label4" class="input-group-text input-group-prepend">Amount</label>
+            @Html.Editor("amt")
+        </div>
+
+        <div>
+            <input type="submit" class="btn btn-outline-success" value="Transfer" />
+        </div>
+        <label id="Label6"></label>
+        <div>
+            @ViewBag.result
+        </div>
+
+    </div>
+}

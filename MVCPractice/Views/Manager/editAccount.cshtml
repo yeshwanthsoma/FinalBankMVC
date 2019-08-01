@@ -1,0 +1,91 @@
+﻿@model BusinessLayer.Account 
+
+@{
+    ViewBag.Title = "editAccount";
+}
+
+<div>
+    <div class="jumbotron d-inline-block" style=" margin-top: 100px">
+       
+            @using (Html.BeginForm("editAccounts", "Manager"))
+            {
+         <div class="input-group mb-3">
+
+                <label id="AccountTypeLabel" class="input-group-text input-group-prepend">Account Type</label>
+                @{
+                List<SelectListItem> listItems = new List<SelectListItem>();
+                listItems.Add(new SelectListItem
+                  {
+                      Text = "Current Account",
+                      Value = "Current"
+                  });
+                listItems.Add(new SelectListItem
+                 {
+                     Text = "Savings Account",
+                     Value = "Savings",
+                     Selected = true
+                 });
+
+                }
+
+                @Html.DropDownList("AccountType", listItems, new { @class = "form-control" })
+
+            </div>
+                <div class="input-group mb-3">
+                    <label id="DateOfOpeneningLabel" class="input-group-text input-group-prepend">Date Of Opening</label>
+
+                    <label class="input-group-text input-group-prepend">@Model.DateOfOpen</label>
+                </div>
+                <div class="input-group mb-3">
+                    <label id="StatusLabel" class="input-group-text input-group-prepend">Status</label>
+                    @{
+                List<SelectListItem> listItems2 = new List<SelectListItem>();
+                listItems2.Add(new SelectListItem
+                  {
+                      Text = "Open",
+                      Value = "Open"
+                  });
+                listItems2.Add(new SelectListItem
+                 {
+                     Text = "Close",
+                     Value = "Close",
+                     Selected = true
+                 });
+
+                    }
+
+                    @Html.DropDownList("Status", listItems2, new { @class = "form-control" })
+
+
+                </div>
+                <div class="input-group mb-3">
+                    <label id="DateOfEditedLabel" class="input-group-text input-group-prepend">DateOfEdited</label>
+                    @{
+                Session["Today"] = DateTime.Now;
+                    }
+                    <label class="input-group-text input-group-prepend">@Session["Today"]</label>
+
+                </div>
+                <div class="input-group mb-3">
+                    <label id="ClosingDateLabel" class="input-group-text input-group-prepend">ClosingDate</label>
+                    @Html.EditorFor(p => p.ClosingDate)
+
+                </div>
+                <div class="input-group mb-3">
+                    <label id="AmountLabel" class="input-group-text input-group-prepend">Amount</label>
+                    @Html.EditorFor(p => p.amount)
+
+                </div>
+                <div>
+                    <input type="submit" id="DetailsSubmitButton" onclick="location.href='@Url.Action("editAccounts", "Manager")'" class="btn btn-outline-secondary" />
+
+
+                </div>
+            
+            }
+            @using (Html.BeginForm("deleteAccount", "Manager"))
+            {
+                <input id="DeleteButton" value="delete" type="submit" class="btn btn-outline-danger" />
+            }
+        </div>
+</div>

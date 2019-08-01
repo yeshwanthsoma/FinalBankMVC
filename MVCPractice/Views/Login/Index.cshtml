@@ -1,0 +1,36 @@
+﻿@model BusinessLayer.Login
+
+@{
+    ViewBag.Title = "Login Page";
+
+
+}
+
+<h2>Index</h2>
+@Session["role"];
+@using (Html.BeginForm("LoginCheck", "Login"))
+{
+
+
+    <div class="jumbotron" style="display: inline-block; margin-top: 100px">
+        <h1><label id="Label1">Login</label></h1>
+        <div class="input-group mb-3">
+            <label id="Label2" class="input-group-text input-group-prepend">    Id</label>
+            @Html.EditorFor(model => model.userId)
+            @Html.ValidationMessageFor(model => model.userId)
+        </div>
+        <div class="input-group mb-3">
+            <label id="Label3" class="input-group-text input-group-prepend">Password</label>
+            @Html.EditorFor(model => model.password)
+            @Html.ValidationMessageFor(model => model.password)
+        </div>
+        <div>
+            <input type="submit" class="btn btn-outline-success" value="Login" />
+
+        </div>
+        @*<div  class="alert alert-danger alert-dismissable" aria-hidden="true">
+                <asp:Label ID="Label4" runat="server"  Visible="false"></asp:Label>
+            </div>*@
+    </div>
+
+}
