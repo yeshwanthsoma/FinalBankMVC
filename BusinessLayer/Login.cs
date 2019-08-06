@@ -11,20 +11,18 @@ namespace BusinessLayer
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
     
     public partial class Login
     {
         public Login()
         {
-            this.Customers = new HashSet<Customer>();
             this.Managers = new HashSet<Manager>();
         }
-
+    
         public string userId { get; set; }
         public string password { get; set; }
         public string role { get; set; }
-        public virtual ICollection<Customer> Customers { get; set; }
+    
         public virtual ICollection<Manager> Managers { get; set; }
     }
 }

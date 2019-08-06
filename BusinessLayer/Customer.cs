@@ -36,7 +36,6 @@ namespace BusinessLayer
         public Nullable<int> managerId { get; set; }
     
         public virtual ICollection<Account> Accounts { get; set; }
-        public virtual Login Login { get; set; }
         public virtual Branch Branch { get; set; }
         public virtual Manager Manager { get; set; }
     }

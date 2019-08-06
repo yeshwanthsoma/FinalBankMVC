@@ -81,18 +81,6 @@
     <Property Name="transactionType" Type="varchar" MaxLength="15" Nullable="false" />
     <Property Name="comments" Type="varchar" MaxLength="50" />
   </EntityType>
-  <Association Name="FK_Account_Account">
-    <End Role="Account" Type="Self.Account" Multiplicity="1" />
-    <End Role="Account1" Type="Self.Account" Multiplicity="0..1" />
-    <ReferentialConstraint>
-      <Principal Role="Account">
-        <PropertyRef Name="accountNo" />
-      </Principal>
-      <Dependent Role="Account1">
-        <PropertyRef Name="accountNo" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
   <Association Name="FK_Account_Customer">
     <End Role="Customer" Type="Self.Customer" Multiplicity="1" />
     <End Role="Account" Type="Self.Account" Multiplicity="*" />
@@ -220,6 +208,13 @@
     <Parameter Name="password" Type="varchar" Mode="In" />
     <Parameter Name="role" Type="varchar" Mode="In" />
   </Function>
+  <Function Name="addManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="managerName" Type="varchar" Mode="In" />
+    <Parameter Name="branchId" Type="varchar" Mode="In" />
+    <Parameter Name="address" Type="varchar" Mode="In" />
+    <Parameter Name="phoneNo" Type="varchar" Mode="In" />
+    <Parameter Name="email" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="balanceEnq" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="acc" Type="bigint" Mode="In" />
   </Function>
@@ -256,12 +251,15 @@
   <Function Name="deleteDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="accountNo" Type="int" Mode="In" />
   </Function>
+  <Function Name="deleteManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="managerId" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="deposit" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="acc" Type="bigint" Mode="In" />
     <Parameter Name="amt" Type="int" Mode="In" />
   </Function>
   <Function Name="editedDetails" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
-    <Parameter Name="accountNo" Type="int" Mode="In" />
+    <Parameter Name="accountNo" Type="bigint" Mode="In" />
     <Parameter Name="accounttype" Type="varchar" Mode="In" />
     <Parameter Name="type" Type="varchar" Mode="In" />
     <Parameter Name="status" Type="varchar" Mode="In" />
@@ -269,12 +267,23 @@
     <Parameter Name="ClosingDate" Type="varchar" Mode="In" />
     <Parameter Name="amount" Type="int" Mode="In" />
   </Function>
+  <Function Name="editManager" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="managerId" Type="int" Mode="In" />
+    <Parameter Name="managerName" Type="varchar" Mode="In" />
+    <Parameter Name="address" Type="varchar" Mode="In" />
+    <Parameter Name="phoneNo" Type="varchar" Mode="In" />
+    <Parameter Name="emailId" Type="varchar" Mode="In" />
+    <Parameter Name="branchId" Type="varchar" Mode="In" />
+  </Function>
   <Function Name="getAllCustomers" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" />
   <Function Name="getBranch" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="userId" Type="varchar" Mode="In" />
   </Function>
   <Function Name="getCustomerName" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="uid" Type="varchar" Mode="In" />
+  </Function>
+  <Function Name="getMedal" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+    <Parameter Name="acc" Type="bigint" Mode="In" />
   </Function>
   <Function Name="getSpecificCustomer" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
     <Parameter Name="custId" Type="int" Mode="In" />
@@ -333,10 +342,6 @@
     <EntitySet Name="Login" EntityType="Self.Login" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Manager" EntityType="Self.Manager" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Transaction" EntityType="Self.Transaction" Schema="dbo" store:Type="Tables" />
-    <AssociationSet Name="FK_Account_Account" Association="Self.FK_Account_Account">
-      <End Role="Account" EntitySet="Account" />
-      <End Role="Account1" EntitySet="Account" />
-    </AssociationSet>
     <AssociationSet Name="FK_Account_Customer" Association="Self.FK_Account_Customer">
       <End Role="Customer" EntitySet="Customer" />
       <End Role="Account" EntitySet="Account" />

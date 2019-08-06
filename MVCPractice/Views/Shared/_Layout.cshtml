@@ -32,12 +32,18 @@
                              <a class="navbar-brand"><h4 style="color:#ffffff">Welcome @Session["userId"] !</h4></a>
                             
                         }
-                        @if(Session["accountNumber"]!=null)
+                        
+                        @if (Session["accountNumber"] != null)
                         {
-                            <a class="navbar-brand"><h4 style="color:#ffffff"> @Session["accountNumber"]
-                                </h4></a>
-                            
-                        }
+                            string input = @Session["accountNumber"].ToString();
+                            var result = "XXXXXXX" + input.Substring(input.Length - 3);
+                            <a class="navbar-brand">
+        <h4 style="color:#ffffff">
+            @result
+        </h4>
+    </a>
+
+}
                         @if (Session["medal"] != null && Session["accountNumber"] != null)
                    
                         {
@@ -69,13 +75,7 @@
     <button type="button" id="miniStatementBtn" onclick="location.href='@Url.Action("Deposit", "Manager")'" class="btn btn-info ">Deposit</button><br />
     <button type="button" id="changePasswordBtn" onclick="location.href='@Url.Action("ManageCustomer", "Manager")'" class="btn btn-info ">Customer </button><br />
     <button type="button" id="balanceEnquiryBtn" onclick="location.href='@Url.Action("Account", "Manager")'" class="btn btn-info ">Account</button><br />
-
-
-                    
-                  
-    
-                    
-                        
+   
                     }
                     else if(Session["role"]=="Customer" && Session["accountNumber"]!=null){
                       

@@ -26,5 +26,7 @@ namespace BusinessLayer
         public string createdDate { get; set; }
         public string editedDate { get; set; }
         public string userId { get; set; }
+        public string branchId { get; set; }
+        public Nullable<int> managerId { get; set; }
     }
 }

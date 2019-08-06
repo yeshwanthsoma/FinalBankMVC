@@ -54,7 +54,7 @@ namespace MVCPractice.Controllers
 
                 ManagerClass obj = new ManagerClass();
 
-                string res = obj.withdraw(acc, amt);
+                string res = obj.deposit(acc, amt);
                 ViewBag.result = res;
 
             }
@@ -75,7 +75,7 @@ namespace MVCPractice.Controllers
         {
 
 
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             Session["customerId"] = customerId;
             string branchId = Session["Branch"].ToString();
             try
@@ -125,7 +125,7 @@ namespace MVCPractice.Controllers
         [HttpPost]
         public ActionResult editAccount(long selectedAccount)
         {
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
            
             Session["EditedAccount"] = selectedAccount;
             ManagerClass obj = new ManagerClass();
@@ -158,8 +158,9 @@ namespace MVCPractice.Controllers
         [HttpPost]
         public ActionResult ManageCustomer(int customerId)
         {
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             string managerId = Session["userId"].ToString();
+            Session["CustomerId"] = customerId;
             Manager mgrDetails = dbContext.Managers.Single(x => x.userId == managerId);
             Customer objCheckUser = dbContext.Customers.SingleOrDefault(x => (x.customerId == customerId));
             if (objCheckUser == null) // No customer exists
@@ -175,15 +176,15 @@ namespace MVCPractice.Controllers
                 else
                 {
                     return View(objCheckUser);
-                }  
+                }
             }
             ViewBag.customerId = customerId;
-            return View();            
+            return View();
         }
 
         public ActionResult ShowAllCustomers()
         {
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             string managerId = Session["userId"].ToString();
             Manager mgrDetails = dbContext.Managers.Single(x => x.userId == managerId);
 
@@ -194,6 +195,13 @@ namespace MVCPractice.Controllers
         public ActionResult AddCustomer()
         {
             return View();
+        }
+
+        public string Encrypt(string strEncrypted)
+        {
+            byte[] b = System.Text.ASCIIEncoding.ASCII.GetBytes(strEncrypted);
+            string encrypted = Convert.ToBase64String(b);
+            return encrypted;
         }
 
         [HttpPost]
@@ -207,13 +215,13 @@ namespace MVCPractice.Controllers
                 custObj.editedDate = DateTime.Now.ToShortDateString();
                 //custObj.type = "Bronze";
                 string managerId = Session["userId"].ToString();
-                BankEntities1 dbContext = new BankEntities1();
+                BankEntities2 dbContext = new BankEntities2();
                 Manager mgrDetails = dbContext.Managers.Single(x => x.userId == managerId);
                 custObj.managerId = mgrDetails.managerId;
                 custObj.branchId = mgrDetails.branchId;
 
                 ManagerClass classcustObj = new ManagerClass();
-                classcustObj.addLogin(custObj.email, "123456", "Customer");
+                classcustObj.addLogin(custObj.email, Encrypt("123456"), "Customer");
                 int rows_affected = classcustObj.addCustomer(custObj);
                 if (rows_affected == 0)
                 {
@@ -235,11 +243,12 @@ namespace MVCPractice.Controllers
             return View();
 
         }
-
-        public ActionResult EditCustomer(int id)
+       
+        public ActionResult EditCustomer()
         {
-            BankEntities1 dbContext = new BankEntities1();
-            Customer obj = dbContext.Customers.Single(x => x.customerId == id);
+            BankEntities2 dbContext = new BankEntities2();
+            int custId=int.Parse(Session["CustomerId"].ToString());
+            Customer obj = dbContext.Customers.Single(x => x.customerId == custId);
             return View(obj);
         }
 
@@ -248,9 +257,9 @@ namespace MVCPractice.Controllers
         {
             try
             {
-                custObj.customerId = int.Parse(RouteData.Values["id"].ToString());
+                custObj.customerId = int.Parse(Session["CustomerId"].ToString());
                 custObj.editedDate = DateTime.Now.ToShortDateString();
-                BankEntities1 dbContext = new BankEntities1();
+                BankEntities2 dbContext = new BankEntities2();
                 ManagerClass classcustObj = new ManagerClass();
 
 
@@ -275,10 +284,10 @@ namespace MVCPractice.Controllers
             return View();
         }
 
-        public ActionResult DeleteCustomer(int id)
+        public ActionResult DeleteCustomer()
         {
             ManagerClass classCustObj = new ManagerClass();
-            int rows_affected = classCustObj.deleteCustomer(id);
+            int rows_affected = classCustObj.deleteCustomer(int.Parse(Session["CustomerId"].ToString()));
             if (rows_affected == 0)
             {
                 TempData.Add("deleteCustomer", "Error while deleting customer");

@@ -4,24 +4,22 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="9f39565bd5394330ac54780a24217262" Name="Diagram1">
-        <EntityTypeShape EntityType="BankModel.Account" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="false" />
-        <EntityTypeShape EntityType="BankModel.Customer" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="BankModel.Login" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BankModel.Transaction" Width="1.5" PointX="7.5" PointY="1.625" IsExpanded="true" />
+      <Diagram DiagramId="3083a7b649164d81ab999ad89c9b9df7" Name="Diagram1">
+        <EntityTypeShape EntityType="BankModel.Account" Width="1.5" PointX="8.25" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Branch" Width="1.5" PointX="0.75" PointY="4.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Customer" Width="1.5" PointX="3" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.CustomerMedal" Width="1.5" PointX="6" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Login" Width="1.5" PointX="3.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Manager" Width="1.5" PointX="6" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BankModel.Transaction" Width="1.5" PointX="10.5" PointY="4.25" IsExpanded="true" />
         <AssociationConnector Association="BankModel.FK_Account_Customer" ManuallyRouted="false" />
+        <AssociationConnector Association="BankModel.FK_Account_CustomerMedal" ManuallyRouted="false" />
         <AssociationConnector Association="BankModel.FK_Transaction_Account" ManuallyRouted="false" />
         <AssociationConnector Association="BankModel.FK_Transaction_Account1" ManuallyRouted="false" />
         <AssociationConnector Association="BankModel.FK_Customer_Customer" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="BankModel.Branch" Width="1.5" PointX="0.75" PointY="4.25" />
-        <EntityTypeShape EntityType="BankModel.CustomerMedal" Width="1.5" PointX="5.25" PointY="8" />
-        <EntityTypeShape EntityType="BankModel.Manager" Width="1.5" PointX="3" PointY="6" />
-        <AssociationConnector Association="BankModel.FK_Account_Account" />
-        <AssociationConnector Association="BankModel.FK_Account_CustomerMedal" />
-        <AssociationConnector Association="BankModel.FK_Customer_Customer1" />
-        <AssociationConnector Association="BankModel.FK_Manager_Branch" />
-        <AssociationConnector Association="BankModel.FK_Customer_Manager" />
-        <AssociationConnector Association="BankModel.FK_Manager_Login" />
+        <AssociationConnector Association="BankModel.FK_Manager_Branch" ManuallyRouted="false" />
+        <AssociationConnector Association="BankModel.FK_Customer_Manager" ManuallyRouted="false" />
+        <AssociationConnector Association="BankModel.FK_Manager_Login" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

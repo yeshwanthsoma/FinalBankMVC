@@ -22,7 +22,7 @@ namespace MVCPractice.Controllers
 
         public ActionResult ManagersList()
         {
-            BankEntities1 newObj = new BankEntities1();
+            BankEntities2 newObj = new BankEntities2();
             List<Manager> managers = newObj.Managers.ToList();
             return View(managers);
         }
@@ -36,7 +36,7 @@ namespace MVCPractice.Controllers
 
         public ActionResult ManageManager(int managerId)
         {
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             Manager managers = dbContext.Managers.Single(x => x.managerId == managerId);
             ViewBag.mgrId = managerId;
             return View(managers);
@@ -73,7 +73,7 @@ namespace MVCPractice.Controllers
          {
              ViewBag.mgrId = id;
              Session["mgrId"] = id;
-             BankEntities1 newObj = new BankEntities1();
+             BankEntities2 newObj = new BankEntities2();
              try
              {
                  SuperManagerClass superManagerClass = new SuperManagerClass();

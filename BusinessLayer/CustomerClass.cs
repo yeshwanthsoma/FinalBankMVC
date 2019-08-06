@@ -10,228 +10,150 @@ namespace BusinessLayer
     public class CustomerClass
     {
         String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
+        BankEntities2 dbContext = new BankEntities2();
 
         public string checkMedal(long acc)
         {
-
+            BankEntities2 dbContext2 = new BankEntities2();
             int amt;
             CustomerClass obj = new CustomerClass();
-            amt = obj.getAmount(acc);
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "changeMedal";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@amt", amt);
-            SqlParameter param2 = new SqlParameter("@acc", acc);
-            command.Parameters.Add(param1);
-            command.Parameters.Add(param2);
-            command.CommandType = CommandType.StoredProcedure;
-            command.ExecuteNonQuery();
 
+            Account account = dbContext.Accounts.Where(val => val.accountNo == acc).Single<Account>();
+            amt = (int)(account.amount);
+            CustomerMedal medal = dbContext2.CustomerMedals.Where(val => val.min < amt && val.max > amt).Single<CustomerMedal>();
+            account.type = medal.type;
+            dbContext.SaveChanges();
 
-            string sql2 = "getMedal";
-            SqlCommand command2 = new SqlCommand(sql2, con);
-            SqlParameter param12 = new SqlParameter("@acc", acc);
-            command2.Parameters.Add(param12);
-            command2.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da2 = new SqlDataAdapter(command2);
-            DataSet ds = new DataSet();
-            da2.Fill(ds);
-            string res = null;
-
-            if (ds.Tables[0].Rows.Count > 0)
-            {
-                res = ds.Tables[0].Rows[0]["type"].ToString();
-
-            }
-
-            con.Close();
-            return res;
+            return account.type;
         }
 
         public bool checkAccount(long acc1)
         {
-
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "checkAcc";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@acc", acc1);
-            command.Parameters.Add(param1);
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-
-            if (ds.Tables[0].Rows.Count > 0)
+            try
             {
-                return true;
+                Account acc = dbContext.Accounts.Where(val => val.accountNo == acc1).Single<Account>();
             }
-
-            con.Close();
-            return false;
+            catch (Exception exe)
+            {
+                return false;
+            }
+            return true;
         }
-
+ 
         public int getAmount(long acc1)
         {
-            int res = 0;
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "checkAmo";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@acc", acc1);
-            command.Parameters.Add(param1);
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-
-            if (ds.Tables[0].Rows.Count > 0)
+            try
             {
-                res = (int)ds.Tables[0].Rows[0]["amount"];
-                return res;
+                Account account = dbContext.Accounts.Where(val => val.accountNo == acc1).Single<Account>();
+                int amt = (int)(account.amount);
+                return amt;
             }
-
-            con.Close();
-            return -100;
+            catch (Exception e)
+            {
+                return -100;
+            }
         }
-
+       
         public void transferAdd(int amount, long acc)
         {
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "transferAdd";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@acc", acc);
-            command.Parameters.Add(param1);
-            SqlParameter param2 = new SqlParameter("@amt", amount);
-            command.Parameters.Add(param2);
-            command.CommandType = CommandType.StoredProcedure;
-            command.ExecuteNonQuery();
-            con.Close();
-        }
+            try
+            {
+                Account account = dbContext.Accounts.Where(val => val.accountNo == acc).Single<Account>();
+                account.amount += amount;
+                dbContext.SaveChanges();
+            }
+            catch (Exception exe)
+            {
 
+            }
+        }
+        
         public void transferSub(int amount, long acc)
         {
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "transferSub";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@acc", acc);
-            command.Parameters.Add(param1);
-            SqlParameter param2 = new SqlParameter("@amt", amount);
-            command.Parameters.Add(param2);
-            command.CommandType = CommandType.StoredProcedure;
-            command.ExecuteNonQuery();
-            con.Close();
+            try
+            {
+                Account account = dbContext.Accounts.Where(val => val.accountNo == acc).Single<Account>();
+                account.amount -= amount;
+                dbContext.SaveChanges();
+            }
+            catch (Exception exe)
+            {
+
+            }
+        }
+        public string Decrypt(string encrString)
+        {
+            byte[] b;
+            string decrypted;
+            try
+            {
+                b = Convert.FromBase64String(encrString);
+                decrypted = System.Text.ASCIIEncoding.ASCII.GetString(b);
+            }
+            catch (FormatException fe)
+            {
+                decrypted = "";
+            }
+            return decrypted;
+        }
+
+        public string Encrypt(string strEncrypted)
+        {
+            byte[] b = System.Text.ASCIIEncoding.ASCII.GetBytes(strEncrypted);
+            string encrypted = Convert.ToBase64String(b);
+            return encrypted;
         }
 
         public string changePassword(string old, string new1, string new2, string uid, out bool success)
         {
-            string res;
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "changePass";//getting password using userId
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@uid", uid);
-            command.Parameters.Add(param1);
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            if (ds.Tables[0].Rows.Count > 0)
+            try
             {
-                res = ds.Tables[0].Rows[0]["password"].ToString();
-                if (res.Equals(old))
+            Login login = dbContext.Logins.Where(val => val.userId == uid).Single<Login>();
+            if(old ==Decrypt(login.password))
+            {
+                if (new1 == new2)
                 {
-                    if (new1.Equals(new2))
-                    {
-                        if (new1.Equals(old))
-                        {
-                            success = false;
-                            return "New password is same as old Password";
-                        }
-                        else
-                        {
-                            string sql1 = "updatePass";
-                            SqlCommand command1 = new SqlCommand(sql1, con);
-                            SqlParameter param2 = new SqlParameter("@uid", uid);
-                            command1.Parameters.Add(param2);
-                            SqlParameter param3 = new SqlParameter("@pass", new1);
-                            command1.Parameters.Add(param3);
-                            command1.CommandType = CommandType.StoredProcedure;
-                            command1.ExecuteNonQuery();
-                            con.Close();
-                            success = true;
-                            return "password Changed";
-                        }
-                    }
-                    else
-                    {
-                        con.Close();
-                        success = false;
-                        return "Password Mismatch";
-                    }
+                    login.password = Encrypt(new1);
+                    dbContext.SaveChanges();
+                    success = true;
+                    return "password Changed";
+                    
                 }
                 else
                 {
-                    con.Close();
                     success = false;
-                    return "Please enter correct old password";
+                    return "Password Mismatch";
+                    
                 }
-
-
             }
             else
             {
-                con.Close();
                 success = false;
-                return "userId Not Found";
+                return "Please enter correct old password";
+                
+            }
+
+            }
+            catch(Exception exe)
+            {
+                success = false;
+                return "User not found";   
             }
         }
 
-        public List<Transaction> customstatement(int acc, DateTime start, DateTime end)
+        public List<datecheck_Result> customstatement(int acc, DateTime start, DateTime end)
         {
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "datecheck";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@acc", acc);
-            command.Parameters.Add(param1);
-            DateTime Start = start.Date;
-            SqlParameter param2 = new SqlParameter("@start", Start.ToString());
-            command.Parameters.Add(param2);
-            DateTime End = end.Date;
-            SqlParameter param3 = new SqlParameter("@end", End.ToString());
-            command.Parameters.Add(param3);
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataAdapter da = new SqlDataAdapter(command);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            con.Close();
-            int noofrows = ds.Tables[0].Rows.Count;
-            int i = 0;
-            List<Transaction> tlist = new List<Transaction>();
-            while (noofrows != 0)
+            try
             {
-                Transaction obj = new Transaction();
-                noofrows--;
-                obj.transactionId = long.Parse(ds.Tables[0].Rows[i]["transactionId"].ToString());
-                obj.fromAccountNo = long.Parse(ds.Tables[0].Rows[i]["fromAccountNo"].ToString());
-                obj.toAccountNo = long.Parse(ds.Tables[0].Rows[i]["toAccountNo"].ToString());
-                obj.transactionDate = ds.Tables[0].Rows[i]["transactionDate"].ToString();
-                obj.amount = int.Parse(ds.Tables[0].Rows[i]["amount"].ToString());
-                obj.transactionType = ds.Tables[0].Rows[i]["transactiontype"].ToString();
-                obj.comments = ds.Tables[0].Rows[i]["comments"].ToString();
-                tlist.Add(obj);
-                i++;
+               
+               var transactionList = dbContext.datecheck(acc, start.ToString(), end.ToString());
+               List<datecheck_Result> final = transactionList.ToList<datecheck_Result>();
+               return final;
             }
-            return tlist;
+            catch (Exception exe)
+            {
+                return null;
+            }
         }
     }
 }

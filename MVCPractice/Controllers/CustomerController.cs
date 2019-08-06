@@ -17,7 +17,7 @@ namespace MVCPractice.Controllers
         {
             string userId=Convert.ToString(Session["userId"]);
             Session["medal"] = null;
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             Customer customer = dbContext.Customers.Single(x => x.userId == userId);
             List<Account> accounts = (dbContext.Accounts.Where(x=>x.customerId==customer.customerId)).ToList();
                 
@@ -35,7 +35,7 @@ namespace MVCPractice.Controllers
             {
                 Session["accountNumber"] = selectedAccount;
                 int selectedAccount2 = int.Parse(selectedAccount);
-                BankEntities1 dbContext = new BankEntities1();
+                BankEntities2 dbContext = new BankEntities2();
                 Account account = dbContext.Accounts.Single(x => x.accountNo == selectedAccount2);
                 var amount = account.amount;
                 CustomerMedal cmedal = dbContext.CustomerMedals.Single(x => amount > x.min && amount < x.max);
@@ -111,7 +111,7 @@ namespace MVCPractice.Controllers
         public ActionResult MiniStatement()
         {
             long accountNo =  long.Parse((Session["accountNumber"]).ToString());
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
 
             List<Transaction> transactions = (List<Transaction>)(dbContext.Transactions.Where(x => x.fromAccountNo == accountNo || x.toAccountNo == accountNo).OrderByDescending(x => x.transactionId).ToList());
 
@@ -137,7 +137,7 @@ namespace MVCPractice.Controllers
         public ActionResult BalanceEnquiry()
         {
             long accountNo = long.Parse((Session["accountNumber"]).ToString());
-            BankEntities1 dbContext = new BankEntities1();
+            BankEntities2 dbContext = new BankEntities2();
             Account account = (Account)(dbContext.Accounts.Single(x => x.accountNo == accountNo));
             return View(account);
         }
@@ -152,7 +152,7 @@ namespace MVCPractice.Controllers
         {
             CustomerClass obj = new CustomerClass();
             int accountNo=Int32.Parse(( Session["accountNumber"].ToString()));
-            IList<Transaction> transactions=obj.customstatement(accountNo,fromDate,toDate);
+            IList<datecheck_Result> transactions=obj.customstatement(accountNo,fromDate,toDate);
 
             
             return View("customStatementTable",transactions);

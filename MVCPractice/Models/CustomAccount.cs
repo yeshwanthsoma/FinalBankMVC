@@ -14,7 +14,7 @@ namespace MVCPractice.Models
         {
             get
             {
-                BankEntities1 db = new BankEntities1();
+                BankEntities2 db = new BankEntities2();
                 return db.Accounts.ToList();
             }
         }

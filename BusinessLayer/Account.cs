@@ -31,10 +31,8 @@ namespace BusinessLayer
         public string type { get; set; }
     
         public virtual Customer Customer { get; set; }
+        public virtual CustomerMedal CustomerMedal { get; set; }
         public virtual ICollection<Transaction> Transactions { get; set; }
         public virtual ICollection<Transaction> Transactions1 { get; set; }
-        public virtual Account Account1 { get; set; }
-        public virtual Account Account2 { get; set; }
-        public virtual CustomerMedal CustomerMedal { get; set; }
     }
 }

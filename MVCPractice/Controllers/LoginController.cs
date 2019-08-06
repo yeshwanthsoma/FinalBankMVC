@@ -14,6 +14,7 @@ namespace MVCPractice.Controllers
 
         public ActionResult Index()
         {
+
             string role=Convert.ToString(Session["role"]);
             //string mgr = "Manager";
             if (Session["accountNumber"] != null)
@@ -30,7 +31,10 @@ namespace MVCPractice.Controllers
             else if (role.Equals("BankManager"))
                 return RedirectToAction("Index", "SuperManager");
             else
+            {
+            
                 return View();
+            }
         }
 
         [HttpPost]
@@ -43,7 +47,7 @@ namespace MVCPractice.Controllers
             {
                 Session["role"] = "Manager";
                 Session["userId"] = userId;
-                Session["branch"]=mobj.getBranch(userId);
+                Session["branch"] = mobj.getBranchIdOfManager(userId);
                 return RedirectToAction("Index", "Manager");
             }
             else if (result == "Customer")
@@ -59,6 +63,10 @@ namespace MVCPractice.Controllers
                 Session["userId"] = userId;
                 return RedirectToAction("Index", "SuperManager");
 
+            }
+            else
+            {
+                Session["WrongCredentials"]=result;
             }
             return RedirectToAction("Index");
         }

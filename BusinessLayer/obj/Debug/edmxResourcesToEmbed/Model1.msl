@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
-  <EntityContainerMapping StorageEntityContainer="BankModelStoreContainer" CdmEntityContainer="BankEntities1">
+  <EntityContainerMapping StorageEntityContainer="BankModelStoreContainer" CdmEntityContainer="BankEntities2">
     <EntitySetMapping Name="Accounts">
       <EntityTypeMapping TypeName="BankModel.Account">
         <MappingFragment StoreEntitySet="Account">
-          <ScalarProperty Name="type" ColumnName="type" />
           <ScalarProperty Name="accountNo" ColumnName="accountNo" />
           <ScalarProperty Name="customerId" ColumnName="customerId" />
           <ScalarProperty Name="accountType" ColumnName="accountType" />
@@ -13,14 +12,22 @@
           <ScalarProperty Name="dateOfEdited" ColumnName="dateOfEdited" />
           <ScalarProperty Name="ClosingDate" ColumnName="ClosingDate" />
           <ScalarProperty Name="amount" ColumnName="amount" />
+          <ScalarProperty Name="type" ColumnName="type" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Branches">
+      <EntityTypeMapping TypeName="BankModel.Branch">
+        <MappingFragment StoreEntitySet="Branch">
+          <ScalarProperty Name="branchName" ColumnName="branchName" />
+          <ScalarProperty Name="branchId" ColumnName="branchId" />
+          <ScalarProperty Name="assigned" ColumnName="assigned" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="Customers">
       <EntityTypeMapping TypeName="BankModel.Customer">
         <MappingFragment StoreEntitySet="Customer">
-          <ScalarProperty Name="managerId" ColumnName="managerId" />
-          <ScalarProperty Name="branchId" ColumnName="branchId" />
           <ScalarProperty Name="customerId" ColumnName="customerId" />
           <ScalarProperty Name="customerName" ColumnName="customerName" />
           <ScalarProperty Name="gender" ColumnName="gender" />
@@ -34,6 +41,17 @@
           <ScalarProperty Name="createdDate" ColumnName="createdDate" />
           <ScalarProperty Name="editedDate" ColumnName="editedDate" />
           <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="branchId" ColumnName="branchId" />
+          <ScalarProperty Name="managerId" ColumnName="managerId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="CustomerMedals">
+      <EntityTypeMapping TypeName="BankModel.CustomerMedal">
+        <MappingFragment StoreEntitySet="CustomerMedal">
+          <ScalarProperty Name="type" ColumnName="type" />
+          <ScalarProperty Name="min" ColumnName="min" />
+          <ScalarProperty Name="max" ColumnName="max" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -43,6 +61,18 @@
           <ScalarProperty Name="userId" ColumnName="userId" />
           <ScalarProperty Name="password" ColumnName="password" />
           <ScalarProperty Name="role" ColumnName="role" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Managers">
+      <EntityTypeMapping TypeName="BankModel.Manager">
+        <MappingFragment StoreEntitySet="Manager">
+          <ScalarProperty Name="managerName" ColumnName="managerName" />
+          <ScalarProperty Name="branchId" ColumnName="branchId" />
+          <ScalarProperty Name="managerId" ColumnName="managerId" />
+          <ScalarProperty Name="address" ColumnName="address" />
+          <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
+          <ScalarProperty Name="userId" ColumnName="userId" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -62,7 +92,9 @@
     <FunctionImportMapping FunctionImportName="addCustomer" FunctionName="BankModel.Store.addCustomer" />
     <FunctionImportMapping FunctionImportName="addDetails" FunctionName="BankModel.Store.addDetails" />
     <FunctionImportMapping FunctionImportName="addLogin" FunctionName="BankModel.Store.addLogin" />
+    <FunctionImportMapping FunctionImportName="addManager" FunctionName="BankModel.Store.addManager" />
     <FunctionImportMapping FunctionImportName="balanceEnq" FunctionName="BankModel.Store.balanceEnq" />
+    <FunctionImportMapping FunctionImportName="changeMedal" FunctionName="BankModel.Store.changeMedal" />
     <FunctionImportMapping FunctionImportName="changePass" FunctionName="BankModel.Store.changePass" />
     <FunctionImportMapping FunctionImportName="checkAcc" FunctionName="BankModel.Store.checkAcc" />
     <FunctionImportMapping FunctionImportName="checkAmo" FunctionName="BankModel.Store.checkAmo" />
@@ -75,6 +107,7 @@
       </ResultMapping>
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="checkCust" FunctionName="BankModel.Store.checkCust" />
+    <FunctionImportMapping FunctionImportName="checkMedal" FunctionName="BankModel.Store.checkMedal" />
     <FunctionImportMapping FunctionImportName="datecheck" FunctionName="BankModel.Store.datecheck">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BankModel.datecheck_Result">
@@ -90,8 +123,10 @@
     </FunctionImportMapping>
     <FunctionImportMapping FunctionImportName="deleteCustomer" FunctionName="BankModel.Store.deleteCustomer" />
     <FunctionImportMapping FunctionImportName="deleteDetails" FunctionName="BankModel.Store.deleteDetails" />
+    <FunctionImportMapping FunctionImportName="deleteManager" FunctionName="BankModel.Store.deleteManager" />
     <FunctionImportMapping FunctionImportName="deposit" FunctionName="BankModel.Store.deposit" />
     <FunctionImportMapping FunctionImportName="editedDetails" FunctionName="BankModel.Store.editedDetails" />
+    <FunctionImportMapping FunctionImportName="editManager" FunctionName="BankModel.Store.editManager" />
     <FunctionImportMapping FunctionImportName="getAllCustomers" FunctionName="BankModel.Store.getAllCustomers">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BankModel.getAllCustomers_Result">
@@ -108,10 +143,14 @@
           <ScalarProperty Name="createdDate" ColumnName="createdDate" />
           <ScalarProperty Name="editedDate" ColumnName="editedDate" />
           <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="branchId" ColumnName="branchId" />
+          <ScalarProperty Name="managerId" ColumnName="managerId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
+    <FunctionImportMapping FunctionImportName="getBranch" FunctionName="BankModel.Store.getBranch" />
     <FunctionImportMapping FunctionImportName="getCustomerName" FunctionName="BankModel.Store.getCustomerName" />
+    <FunctionImportMapping FunctionImportName="getMedal" FunctionName="BankModel.Store.getMedal" />
     <FunctionImportMapping FunctionImportName="getSpecificCustomer" FunctionName="BankModel.Store.getSpecificCustomer">
       <ResultMapping>
         <ComplexTypeMapping TypeName="BankModel.getSpecificCustomer_Result">
@@ -128,6 +167,8 @@
           <ScalarProperty Name="createdDate" ColumnName="createdDate" />
           <ScalarProperty Name="editedDate" ColumnName="editedDate" />
           <ScalarProperty Name="userId" ColumnName="userId" />
+          <ScalarProperty Name="branchId" ColumnName="branchId" />
+          <ScalarProperty Name="managerId" ColumnName="managerId" />
         </ComplexTypeMapping>
       </ResultMapping>
     </FunctionImportMapping>
@@ -160,38 +201,5 @@
     <FunctionImportMapping FunctionImportName="updatePass" FunctionName="BankModel.Store.updatePass" />
     <FunctionImportMapping FunctionImportName="updateUserID" FunctionName="BankModel.Store.updateUserID" />
     <FunctionImportMapping FunctionImportName="withdraw" FunctionName="BankModel.Store.withdraw" />
-    <EntitySetMapping Name="Branches">
-      <EntityTypeMapping TypeName="BankModel.Branch">
-        <MappingFragment StoreEntitySet="Branch">
-          <ScalarProperty Name="assigned" ColumnName="assigned" />
-          <ScalarProperty Name="branchId" ColumnName="branchId" />
-          <ScalarProperty Name="branchName" ColumnName="branchName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="CustomerMedals">
-      <EntityTypeMapping TypeName="BankModel.CustomerMedal">
-        <MappingFragment StoreEntitySet="CustomerMedal">
-          <ScalarProperty Name="max" ColumnName="max" />
-          <ScalarProperty Name="min" ColumnName="min" />
-          <ScalarProperty Name="type" ColumnName="type" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="Managers">
-      <EntityTypeMapping TypeName="BankModel.Manager">
-        <MappingFragment StoreEntitySet="Manager">
-          <ScalarProperty Name="userId" ColumnName="userId" />
-          <ScalarProperty Name="phoneNo" ColumnName="phoneNo" />
-          <ScalarProperty Name="address" ColumnName="address" />
-          <ScalarProperty Name="managerId" ColumnName="managerId" />
-          <ScalarProperty Name="branchId" ColumnName="branchId" />
-          <ScalarProperty Name="managerName" ColumnName="managerName" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <FunctionImportMapping FunctionImportName="changeMedal" FunctionName="BankModel.Store.changeMedal" />
-    <FunctionImportMapping FunctionImportName="checkMedal" FunctionName="BankModel.Store.checkMedal" />
-    <FunctionImportMapping FunctionImportName="getBranch" FunctionName="BankModel.Store.getBranch" />
   </EntityContainerMapping>
 </Mapping>

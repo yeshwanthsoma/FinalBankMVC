@@ -4,49 +4,50 @@ using System.Linq;
 using System.Text;
 using System.Data;
 using System.Data.SqlClient;
+using BusinessLayer;
 
 
 namespace BusinessLayer
 {
     public class LoginClass
     {
+        BankEntities2 dbContext = new BankEntities2();
+
+        public string Decrypt(string encrString)
+        {
+            byte[] b;
+            string decrypted;
+            try
+            {
+                b = Convert.FromBase64String(encrString);
+                decrypted = System.Text.ASCIIEncoding.ASCII.GetString(b);
+            }
+            catch (FormatException fe)
+            {
+                decrypted = "";
+            }
+            return decrypted;
+        }
+
         public string checkCredentials(string userId, string password)
         {
-            string role , pwd ;
-            String ConnectionString = System.Configuration.ConfigurationManager.AppSettings["ConnectionString"];
-            SqlConnection con = new SqlConnection(ConnectionString);
-            con.Open();
-            string sql = "checkCre";
-            SqlCommand command = new SqlCommand(sql, con);
-            SqlParameter param1 = new SqlParameter("@uid", userId);
-            command.Parameters.Add(param1);
-
-            command.CommandType = CommandType.StoredProcedure;
-            SqlDataReader dr = command.ExecuteReader();
-
-            if (dr.Read())
+            string role;
+            try
             {
-                role = dr.GetString(1);
-                pwd = dr.GetString(0);
-
-                if (password.Equals(pwd))
+                
+                Login user = dbContext.Logins.Where(Val => (Val.userId).Equals(userId)).Single<Login>();
+                string Dpassword=Decrypt(user.password);
+                if (password == Dpassword)
                 {
-                    con.Close();
+                    role = user.role;
                     return role;
-
-
                 }
                 else
-                {
-                    con.Close();
-                    return "wrongPassword";
-                }
-
+                    return "Entered UserId or Password are Incorrect";
             }
-            else
+            catch (Exception e)
             {
-                con.Close();
-                return "userNotFound";
+                return "Entered UserId or Password are Incorrect";
             }
 
         }
